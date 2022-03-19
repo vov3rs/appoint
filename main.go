@@ -6,5 +6,5 @@ import (
 )
 
 func main() {
-	fmt.Println("KEK" + app.GetName("silyanov"))
+	fmt.Println("KEK" + app.GetName("S"))
 }
