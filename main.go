@@ -1,10 +1,14 @@
 package main
 
 import (
-	"awesomeProject/internal/app"
-	"fmt"
+	"net/http"
 )
 
+func HelloWorld(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("<h1>Hello, World</h1>"))
+}
+
 func main() {
-	fmt.Println("KEK" + app.GetName("S"))
+	http.HandleFunc("/", HelloWorld)
+	http.ListenAndServe(":8080", nil)
 }
