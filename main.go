@@ -1,14 +1,24 @@
 package main
 
 import (
+	"github.com/go-chi/chi/v5"
+	"log"
 	"net/http"
 )
 
-func HelloWorld(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("<h1>Hello, World</h1>"))
+func HelloWorld(rw http.ResponseWriter, r *http.Request) {
+	name := r.URL.Query().Get("name")
+	greetings := chi.URLParam(r, "greetings")
+	rw.Write([]byte(greetings + " " + name))
 }
 
 func main() {
-	http.HandleFunc("/", HelloWorld)
-	http.ListenAndServe(":8080", nil)
+	r := chi.NewRouter()
+	r.Get("/", func(rw http.ResponseWriter, r *http.Request) {
+		rw.Write([]byte("chi"))
+	})
+
+	r.Get("/api/{greetings}", HelloWorld)
+
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
